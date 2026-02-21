@@ -27,10 +27,13 @@ export async function searchCommand(query: string, options: SearchOptions): Prom
       return;
     }
 
-    console.log(chalk.bold(`Found ${data.total} icons (showing ${data.icons.length}):\n`));
+    console.log(chalk.bold(`Found ${data.total} icons (showing ${data.icons.length}):`));
+    console.log(chalk.dim(`cmd + click '[→]' to preview icon in browser\n`))
     for (const icon of data.icons) {
       const [prefix, name] = icon.split(":");
-      console.log(`  ${chalk.cyan(prefix)}:${chalk.white(name)}`);
+      const url = `https://api.iconify.design/${prefix}/${name}.svg?height=24`;
+      const link = `\x1b]8;;${url}\x07[→]\x1b]8;;\x07`;
+      console.log(`  ${chalk.cyan(prefix)}:${chalk.white(name)} ${link}`);
     }
     console.log(chalk.dim(`\nUse 'better-icons get <icon-id>' to retrieve SVG`));
   } catch (error) {
